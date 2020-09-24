@@ -31,24 +31,25 @@ class MCP4822:
         time.sleep_ms(120)
 
     def _write(self, data: int):
-        # self.ldac.value(1)
-        # self.chip_select.value(0)
+        self.ldac.value(1)
+        self.chip_select.value(0)
         self.spi.write(bytearray(bin(data)))
-        # self.chip_select.value(1)
-        # self.ldac.value(0)
+        self.chip_select.value(1)
+        self.ldac.value(0)
 
     def set_voltage(self, voltage: int):
-        command = 0 << 15  # channel A
-        command = command | (1 << 12)  # turn on
-        command = command | (0 << 13)  # set gain to high
-        value = voltage >> (12 - 12)  # second 12 is bit resolution (12-bit_resolution), set voltage
-        command = command | value
-        print("command: {}".format(command))
-        print("bin: {}".format(bin(command)))
+        #command = 0 << 15  # channel A
+        #command = command | (1 << 12)  # turn on
+        #command = command | (0 << 13)  # set gain to high
+        #value = voltage >> (12 - 12)  # second 12 is bit resolution (12-bit_resolution), set voltage
+        command = voltage
+        
+        #print("command: {}".format(command))
+        #print("bin: {}".format(bin(command)))
         dac._write(command)
-        import sys
-        print(sys.getsizeof(bin(command)))
+        #import sys
+        #print(sys.getsizeof(bin(command)))
 
-dac = MCP4822(2, 4, 14, 13, 12)
+dac = MCP4822(5, 2, 18, 23, 19)
 
-dac.set_voltage(128)
+dac.set_voltage(2000)
